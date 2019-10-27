@@ -1,14 +1,10 @@
-## 预测 20 世纪 70 年代中期波士顿郊区房屋价格的中位数
-
 from keras.datasets import boston_housing
 from keras import models
 from keras import layers
 import numpy as np
 
-### 获取数据集
 (train_data, train_targets), (test_data, test_targets) = boston_housing.load_data()
 
-### 数据标准化
 mean = train_data.mean(axis=0)
 train_data -= mean
 std = train_data.std(axis=0)
@@ -17,7 +13,6 @@ train_data /= std
 test_data -= mean
 test_data /= std
 
-### 建立模型
 def build_model():
     # Because we will need to instantiate
     # the same model multiple times,
@@ -30,7 +25,6 @@ def build_model():
     model.compile(optimizer='rmsprop', loss='mse', metrics=['mae'])
     return model
 
-### 训练最终模型并在测试集上测试
 model = build_model()
 model.fit(train_data, train_targets, epochs=80, batch_size=16, verbose=0)
 test_mse_score, test_mae_score = model.evaluate(test_data, test_targets)
